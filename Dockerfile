@@ -19,4 +19,4 @@ ENV CONDA_EXE=/opt/conda/bin/conda
 ENV CONDA_PREFIX=/opt/conda
 ENV CONDA_PYTHON_EXE=/opt/conda/bin/python
 #CMD deepspeed --num_gpus=1 server.py --deepspeed --auto-devices --cai-chat --load-in-8bit --listen --listen-port=8888
-CMD python server.py --auto-devices --cai-chat --load-in-8bit --listen --listen-port=8888
+CMD python server.py --auto-devices --load-in-8bit --listen --listen-port=8888 --model=opt-1.3b
