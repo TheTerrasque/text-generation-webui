@@ -9,6 +9,8 @@ services:
     tty: true
     volumes:
       - ./models:/app/models
+      - ./characters:/app/characters
+      - ./softprompts:/app/softprompts
     deploy:
       resources:
         reservations:

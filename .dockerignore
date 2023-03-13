@@ -1,1 +1,9 @@
 models/
+cache/
+characters/
+extensions/silero_tts/outputs/
+extensions/elevenlabs_tts/outputs/
+logs/
+models/
+softprompts/
+torch-dumps/
