@@ -11,6 +11,7 @@ services:
       - ./models:/app/models
       - ./characters:/app/characters
       - ./softprompts:/app/softprompts
+      - build-cache:/app/repositories/GPTQ-for-LLaMa/build
     deploy:
       resources:
         reservations:
@@ -18,3 +19,6 @@ services:
             - driver: nvidia
               device_ids: ['0']
               capabilities: [gpu]
+
+volumes:
+  build-cache:
