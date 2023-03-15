@@ -24,4 +24,4 @@ fi
 cd /app/repositories/GPTQ-for-LLaMa && python setup_cuda.py install
 cd /app
 
-python server.py --cai-chat --load-in-4bit --listen --listen-port=8888 --model=llama-7b
+python server.py --cai-chat --gptq-bits 4 --listen --listen-port=8888 --model=llama-7b
