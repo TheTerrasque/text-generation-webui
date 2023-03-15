@@ -6,11 +6,6 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y git software-properties-common build-essential gnupg ninja-build dos2unix && apt-get clean
 
 RUN conda install torchvision torchaudio pytorch-cuda=11.7 cuda -c pytorch  -c nvidia/label/cuda-11.7.1 && conda clean -a
-#RUN --mount=type=cache,target=/root/.cache/pip pip install torch==1.12+cu113 -f https://download.pytorch.org/whl/torch_stable.html
-
-#RUN wget https://developer.download.nvidia.com/compute/cuda/11.7.0/local_installers/cuda_11.7.0_515.43.04_linux.run && sh cuda_11.7.0_515.43.04_linux.run --silent && rm cuda_11.7.0_515.43.04_linux.run
-#RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/3bf863cc.pub && add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/ /" && add-apt-repository contrib && apt-get update && apt-get install -y cuda && apt-get clean
-
 
 COPY requirements.txt /app/requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r /app/requirements.txt
@@ -28,5 +23,5 @@ RUN cd repositories && git clone https://github.com/qwopqwop200/GPTQ-for-LLaMa
 
 COPY . /app
 RUN dos2unix /app/run.sh
-#CMD deepspeed --num_gpus=1 server.py --deepspeed --auto-devices --cai-chat --load-in-8bit --listen --listen-port=8888
+
 CMD bash run.sh
