@@ -3,16 +3,18 @@
 # Workaround for issue: https://github.com/qwopqwop200/GPTQ-for-LLaMa/issues/31
 # sed -i 's/if checkpoint\.endswith/if checkpoint\.as_posix\(\).endswith/' /app/repositories/GPTQ-for-LLaMa/llama.py
 
-if [ ! -e "/app/models/llama-7b" ] ; then
-    echo "Downloading LLaMa model 7B (metadata)"
-    if [ ! -e "/app/models/llama-7b-hf" ] ; then
-        python download-model.py --text-only decapoda-research/llama-7b-hf
+model="llama-7b"
+
+if [ ! -e "/app/models/$model" ] ; then
+    echo "Downloading LLaMa model $model (metadata)"
+    if [ ! -e "/app/models/$model-hf" ] ; then
+        python download-model.py --text-only decapoda-research/$model-hf
     fi
-    mv /app/models/llama-7b-hf /app/models/llama-7b
+    mv /app/models/$model-hf /app/models/$model
 fi
-if [ ! -e "/app/models/llama-7b-4bit.pt" ] ; then
-    echo "Downloading LLaMa model 7B (weights)"
-    wget https://huggingface.co/decapoda-research/llama-7b-hf-int4/resolve/main/llama-7b-4bit.pt -O /app/models/llama-7b-4bit.pt --progress=dot:giga
+if [ ! -e "/app/models/$model-4bit.pt" ] ; then
+    echo "Downloading LLaMa model $model (weights)"
+    wget https://huggingface.co/decapoda-research/$model-hf-int4/resolve/main/$model-4bit.pt -O /app/models/$model-4bit.pt --progress=dot:giga
 fi
 
 if [ ! -e "/opt/conda/lib/libcudart.so" ] ; then
@@ -24,4 +26,4 @@ fi
 cd /app/repositories/GPTQ-for-LLaMa && python setup_cuda.py install
 cd /app
 
-python server.py --cai-chat --gptq-bits 4 --listen --listen-port=8888 --model=llama-7b
+python server.py --cai-chat --gptq-bits 4 --listen --listen-port=8888 --model=$model
