@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     ports:
-      - "8889:8888"
+      - "8889:8889"
     stdin_open: true
     tty: true
     volumes:

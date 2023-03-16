@@ -1,3 +1,30 @@
+# Docker Quick Start
+
+1. Install [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
+2. Download latest [release](https://github.com/TheTerrasque/text-generation-webui/releases) and unpack it in a folder
+3. Double-click on "docker_start.bat"
+4. **Wait** - first run can take a while. 10-30 minutes are not unexpected depending on your system and internet connection
+5. When you see *"Running on local URL:  http://0.0.0.0:8889"* you can open it at http://127.0.0.1:8889/
+6. To get a bit more ChatGPT like experience, go to "Chat settings" and pick Character "ChatGPT"
+
+## What is this Docker thing?
+
+Docker is like a virtual box that you can use to store and run applications. Think of it like a container for your apps, which makes it easier to move them between different computers or servers. With Docker, you can package your software in such a way that it has all the dependencies and resources it needs to run, no matter where it's deployed. This means that you can run your app on any machine that supports Docker, without having to worry about installing libraries, frameworks or other software.
+
+Here it's being used to create a predictable and reliable setup for the text generation web ui, and llama 4bit.
+
+## Enable easy updates
+
+To easily update to later versions, you will first need to install [Git](https://git-scm.com/download/win), and then instead of step 2 above, go to an empty folder and 
+
+1. Right click and choose "Git Bash here"
+2. In the window that pops up, run these commands:
+    1. git clone https://github.com/TheTerrasque/text-generation-webui.git
+    2. cd text-generation-webui
+    3. git checkout feature/docker
+
+You can now use the file "docker_update.bat" to update your installation to the latest version.
+
 # Text generation web UI
 
 A gradio web UI for running Large Language Models like GPT-J 6B, OPT, GALACTICA, LLaMA, and Pygmalion.
