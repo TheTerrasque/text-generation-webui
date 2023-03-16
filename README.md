@@ -1,3 +1,5 @@
+**Note: This is for Nvidia as I don't have AMD hardware to test on**
+
 # Docker Quick Start
 
 1. Install [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
