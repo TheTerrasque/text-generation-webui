@@ -19,9 +19,10 @@ ENV CONDA_PREFIX=/opt/conda
 ENV CONDA_PYTHON_EXE=/opt/conda/bin/python
 
 RUN mkdir repositories 
-RUN cd repositories && git clone https://github.com/qwopqwop200/GPTQ-for-LLaMa
+RUN cd repositories && git clone https://github.com/qwopqwop200/GPTQ-for-LLaMa && cd GPTQ-for-LLaMa && git reset --hard 19f1c32c1b57bcb022ddcf77ee7e52987d8871f0
 
 COPY . /app
+COPY ./docker/run.sh /app/run.sh
 RUN dos2unix /app/run.sh
 
 CMD bash run.sh
