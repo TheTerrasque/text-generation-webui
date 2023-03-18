@@ -3,6 +3,14 @@
 # Docker Quick Start
 
 1. Install [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
+2. Run this command (in powershell): docker run --rm -it --gpus all -v $PWD/models:/app/models -v $PWD/characters:/app/characters -p 8889:8889 terrasque/llama-webui:v0.1
+3. When it's finished starting up, web interface is available at http://127.0.0.1:8889/ 
+
+## Build from release
+
+This is slightly more error prone, but it allows you to change launch paramters and similar.
+
+1. Install [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
 2. Download latest [release](https://github.com/TheTerrasque/text-generation-webui/releases) and unpack it in a folder
 3. Double-click on "docker_start.bat"
 4. **Wait** - first run can take a while. 10-30 minutes are not unexpected depending on your system and internet connection
