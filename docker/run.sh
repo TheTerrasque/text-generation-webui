@@ -17,6 +17,10 @@ if [ ! -e "/app/models/$model-4bit.pt" ] ; then
     wget https://huggingface.co/decapoda-research/$model-hf-int4/resolve/main/$model-4bit.pt -O /app/models/$model-4bit.pt --progress=dot:giga
 fi
 
+echo "Fixing LLaMa models (tokenizer)"
+cd /app/models
+find . -name '*.json' -exec sed -i -e 's/LLaMATokenizer/LlamaTokenizer/g' {} \;
+
 if [ ! -e "/opt/conda/lib/libcudart.so" ] ; then
     echo "Fixing symlink for libcudart.so"
     rm /opt/conda/lib/libcudart.so
