@@ -4,10 +4,10 @@ flexgen==0.1.7
 gradio==3.18.0
 markdown
 numpy
+peft==0.2.0
 requests
-rwkv==0.4.2
 safetensors==0.3.0
 sentencepiece
 tqdm
-git+https://github.com/zphang/transformers.git@68d640f7c368bcaaaecfc678f11908ebbd3d6176
+git+https://github.com/huggingface/transformers
 pyyaml

@@ -33,12 +33,15 @@ def encode(prompt, tokens_to_generate=0, add_special_tokens=True):
             return input_ids.numpy()
         elif shared.args.deepspeed:
             return input_ids.to(device=local_rank)
+        elif torch.has_mps:
+            device = torch.device('mps')
+            return input_ids.to(device)
         else:
             return input_ids.cuda()
 
 def decode(output_ids):
     # Open Assistant relies on special tokens like <|endoftext|>
-    if re.match('oasst-*', shared.model_name.lower()):
+    if re.match('(oasst|galactica)-*', shared.model_name.lower()):
         return shared.tokenizer.decode(output_ids, skip_special_tokens=False)
     else:
         reply = shared.tokenizer.decode(output_ids, skip_special_tokens=True)
