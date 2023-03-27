@@ -6,9 +6,9 @@
 model="alpaca-native-4bit"
 
 if [ ! -e "/app/models/$model" ] ; then
-    echo "Downloading LLaMa model $model (metadata)"
+    echo "Downloading LLaMa model $model"
     if [ ! -e "/app/models/$model" ] ; then
-        python download-model.py --text-only ozcur/$model
+        python download-model.py ozcur/$model
     fi
 fi
 # if [ ! -e "/app/models/$model-4bit.pt" ] ; then
