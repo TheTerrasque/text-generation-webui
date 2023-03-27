@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import time
 import zipfile
 from pathlib import Path
@@ -43,7 +44,7 @@ def load_model(model_name):
     shared.is_RWKV = model_name.lower().startswith('rwkv-')
 
     # Default settings
-    if not any([shared.args.cpu, shared.args.load_in_8bit, shared.args.gptq_bits, shared.args.auto_devices, shared.args.disk, shared.args.gpu_memory is not None, shared.args.cpu_memory is not None, shared.args.deepspeed, shared.args.flexgen, shared.is_RWKV]):
+    if not any([shared.args.cpu, shared.args.load_in_8bit, shared.args.wbits, shared.args.auto_devices, shared.args.disk, shared.args.gpu_memory is not None, shared.args.cpu_memory is not None, shared.args.deepspeed, shared.args.flexgen, shared.is_RWKV]):
         if any(size in shared.model_name.lower() for size in ('13b', '20b', '30b')):
             model = AutoModelForCausalLM.from_pretrained(Path(f"models/{shared.model_name}"), device_map='auto', load_in_8bit=True)
         else:
@@ -94,7 +95,7 @@ def load_model(model_name):
         return model, tokenizer
 
     # Quantized model
-    elif shared.args.gptq_bits > 0:
+    elif shared.args.wbits > 0:
         from modules.GPTQ_loader import load_quantized
 
         model = load_quantized(model_name)
@@ -120,11 +121,12 @@ def load_model(model_name):
                 params["torch_dtype"] = torch.float16
 
             if shared.args.gpu_memory:
-                memory_map = shared.args.gpu_memory
+                memory_map = list(map(lambda x : x.strip(), shared.args.gpu_memory))
+                max_cpu_memory = shared.args.cpu_memory.strip() if shared.args.cpu_memory is not None else '99GiB'
                 max_memory = {}
                 for i in range(len(memory_map)):
-                    max_memory[i] = f'{memory_map[i]}GiB'
-                max_memory['cpu'] = f'{shared.args.cpu_memory or 99}GiB'
+                    max_memory[i] = f'{memory_map[i]}GiB' if not re.match('.*ib$', memory_map[i].lower()) else memory_map[i]
+                max_memory['cpu'] = max_cpu_memory
                 params['max_memory'] = max_memory
             elif shared.args.auto_devices:
                 total_mem = (torch.cuda.get_device_properties(0).total_memory / (1024*1024))
