@@ -23,7 +23,7 @@ def generate_chat_output(history, name1, name2, character):
     else:
         return history
 
-def generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat_prompt_size, impersonate=False):
+def generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat_prompt_size, impersonate=False, also_return_rows=False):
     user_input = fix_newlines(user_input)
     rows = [f"{context.strip()}\n"]
 
@@ -52,7 +52,11 @@ def generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat
         rows.pop(1)
 
     prompt = ''.join(rows)
-    return prompt
+
+    if also_return_rows:
+        return prompt, rows
+    else:
+        return prompt
 
 def extract_message_from_reply(reply, name1, name2, check):
     next_character_found = False
@@ -81,11 +85,7 @@ def extract_message_from_reply(reply, name1, name2, check):
     reply = fix_newlines(reply)
     return reply, next_character_found
 
-def stop_everything_event():
-    shared.stop_everything = True
-
 def chatbot_wrapper(text, max_new_tokens, do_sample, temperature, top_p, typical_p, repetition_penalty, encoder_repetition_penalty, top_k, min_length, no_repeat_ngram_size, num_beams, penalty_alpha, length_penalty, early_stopping, seed, name1, name2, context, check, chat_prompt_size, chat_generation_attempts=1, regenerate=False):
-    shared.stop_everything = False
     just_started = True
     eos_token = '\n' if check else None
     name1_original = name1
