@@ -52,9 +52,10 @@ Its goal is to become the [AUTOMATIC1111/stable-diffusion-webui](https://github.
 * Dropdown menu for switching between models
 * Notebook mode that resembles OpenAI's playground
 * Chat mode for conversation and role playing
+* Instruct mode compatible with Alpaca and Open Assistant formats **\*NEW!\***
 * Nice HTML output for GPT-4chan
 * Markdown output for [GALACTICA](https://github.com/paperswithcode/galai), including LaTeX rendering
-* Custom chat characters in JSON format ([FAQ](https://github.com/oobabooga/text-generation-webui/wiki/Custom-characters-FAQ))
+* [Custom chat characters](https://github.com/oobabooga/text-generation-webui/wiki/Custom-chat-characters)
 * Advanced chat features (send images, get audio responses with TTS)
 * Very efficient text streaming
 * Parameter presets
@@ -63,7 +64,7 @@ Its goal is to become the [AUTOMATIC1111/stable-diffusion-webui](https://github.
 * CPU mode
 * [FlexGen](https://github.com/oobabooga/text-generation-webui/wiki/FlexGen)
 * [DeepSpeed ZeRO-3](https://github.com/oobabooga/text-generation-webui/wiki/DeepSpeed)
-* API [with](https://github.com/oobabooga/text-generation-webui/blob/main/api-example-streaming.py) streaming and [without](https://github.com/oobabooga/text-generation-webui/blob/main/api-example.py) streaming
+* API [with](https://github.com/oobabooga/text-generation-webui/blob/main/api-example-stream.py) streaming and [without](https://github.com/oobabooga/text-generation-webui/blob/main/api-example.py) streaming
 * [LLaMA model, including 4-bit GPTQ](https://github.com/oobabooga/text-generation-webui/wiki/LLaMA-model)
 * [llama.cpp](https://github.com/oobabooga/text-generation-webui/wiki/llama.cpp-models) **\*NEW!\***
 * [RWKV model](https://github.com/oobabooga/text-generation-webui/wiki/RWKV-model)
@@ -97,9 +98,9 @@ Source codes: https://github.com/oobabooga/one-click-installers
 
 Recommended if you have some experience with the command-line.
 
-On Windows, I additionally recommend carrying out the installation on WSL instead of the base system: [WSL installation guide](https://github.com/oobabooga/text-generation-webui/wiki/Windows-Subsystem-for-Linux-(Ubuntu)-Installation-Guide).
+On Windows, I additionally recommend carrying out the installation on WSL instead of the base system: [WSL installation guide](https://github.com/oobabooga/text-generation-webui/wiki/WSL-installation-guide).
 
-0. Install Conda
+#### 0. Install Conda
 
 https://docs.conda.io/en/latest/miniconda.html
 
@@ -112,14 +113,14 @@ bash Miniconda3.sh
 
 Source: https://educe-ubc.github.io/conda.html
 
-1. Create a new conda environment
+#### 1. Create a new conda environment
 
 ```
 conda create -n textgen python=3.10.9
 conda activate textgen
 ```
 
-2. Install Pytorch
+#### 2. Install Pytorch
 
 | System | GPU | Command |
 |--------|---------|---------|
@@ -129,10 +130,12 @@ conda activate textgen
 
 The up to date commands can be found here: https://pytorch.org/get-started/locally/. 
 
-MacOS users, refer to the comments here: https://github.com/oobabooga/text-generation-webui/pull/393
+#### 2.1 Special instructions
 
+* MacOS users: https://github.com/oobabooga/text-generation-webui/pull/393
+* AMD users: https://rentry.org/eq3hg
 
-3. Install the web UI
+#### 3. Install the web UI
 
 ```
 git clone https://github.com/oobabooga/text-generation-webui
@@ -212,7 +215,6 @@ Optionally, you can use the following command-line flags:
 | `-h`, `--help`   | show this help message and exit |
 | `--notebook`     | Launch the web UI in notebook mode, where the output is written to the same text box as the input. |
 | `--chat`         | Launch the web UI in chat mode.|
-| `--cai-chat`     | Launch the web UI in chat mode with a style similar to Character.AI's. If the file `img_bot.png` or `img_bot.jpg` exists in the same folder as server.py, this image will be used as the bot's profile picture. Similarly, `img_me.png` or `img_me.jpg` will be used as your profile picture. |
 | `--model MODEL`  | Name of the model to load by default. |
 | `--lora LORA`    | Name of the LoRA to apply to the model by default. |
 |  `--model-dir MODEL_DIR`                    | Path to directory with all the models |
@@ -249,7 +251,7 @@ Optionally, you can use the following command-line flags:
 | `--wbits WBITS`            | GPTQ: Load a pre-quantized model with specified precision in bits. 2, 3, 4 and 8 are supported. |
 | `--model_type MODEL_TYPE`  | GPTQ: Model type of pre-quantized model. Currently LLaMA, OPT, and GPT-J are supported. |
 | `--groupsize GROUPSIZE`    | GPTQ: Group size. |
-| `--pre_layer PRE_LAYER`    | GPTQ: The number of layers to preload. |
+| `--pre_layer PRE_LAYER`    | GPTQ: The number of layers to allocate to the GPU. Setting this parameter enables CPU offloading for 4-bit models. |
 
 #### FlexGen
 
