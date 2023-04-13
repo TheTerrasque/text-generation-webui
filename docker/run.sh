@@ -12,4 +12,4 @@ fi
 cd /app/repositories/GPTQ-for-LLaMa && python setup_cuda.py install
 cd /app
 
-python server.py --listen --listen-port=8889 --cai-chat
+python server.py --listen --listen-port=8889 --cai-chat --extensions llama_prompts gallery
